@@ -1,35 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Images, Profiles } from './App/Themes';
+import React from "react";
+import { StyleSheet, Text, SafeAreaView } from "react-native";
+import { Images, Profiles } from "./App/Themes";
+
+import Header from "./App/Components/Header";
+import ProfileImage from "./App/Components/ProfileImage";
+import BottomNavigator from "./App/Components/BottomNavigator";
 
 export default class App extends React.Component {
-  constructor() {
-    super();
+	constructor() {
+		super();
 
-    var haroldProfile = Profiles.harold;
-    this.state = {
-      profileImage: haroldProfile.image,
-      name: haroldProfile.name,
-      age: haroldProfile.age,
-      occupation: haroldProfile.occupation
-    };
-  }
+		this.state = {
+			currentProfile: Profiles.harold,
+		};
+	}
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>This is your workspace. Have fun!</Text>
-        <Text>(Hint: Peep the App folder)</Text>
-      </View>
-    );
-  }
+	nextProfile = () => {
+		this.setState({ currentProfile: Profiles.random() });
+	};
+
+	previousProfile = () => {
+		this.setState({ currentProfile: Profiles.random() });
+	};
+
+	render() {
+		return (
+			<SafeAreaView style={styles.container}>
+				<Header />
+				<ProfileImage profile={this.state.currentProfile} />
+				<BottomNavigator
+					onPrevious={this.previousProfile}
+					onNext={this.nextProfile}
+				/>
+			</SafeAreaView>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#f0f0f0",
+	},
 });
